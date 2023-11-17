@@ -30,6 +30,7 @@ app.get('/start', async (_, res) => {
 });
 
 app.post('/chat', async (req, res) => {
+  console.log(req.body);
 
   const { threadId, message } = req.body;
   if (!threadId) {
