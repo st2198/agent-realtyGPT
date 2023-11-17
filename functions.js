@@ -6,7 +6,7 @@ const createAssistant = async (client) => {
   const assistantJsonPath = 'assistant.json';
   let assistantJson = {};
 
-  if (!fs.existsSync(assistantJsonPath)) {
+  // if (!fs.existsSync(assistantJsonPath)) {
     const knowledgeBase = await client.files.create({
       file: fs.createReadStream("KnowledgeBase.pdf"),
       purpose: "assistants",
@@ -22,15 +22,15 @@ const createAssistant = async (client) => {
       file_ids: [knowledgeBase.id],
     });
 
-    fs.writeFile(assistantJsonPath, JSON.stringify(assistantJson), (err) => {
-      if (err) throw err;
-      console.log('Assistant JSON has been created successfully');
-    });
+    // fs.writeFile(assistantJsonPath, JSON.stringify(assistantJson), (err) => {
+    //   if (err) throw err;
+    //   console.log('Assistant JSON has been created successfully');
+    // });
 
     console.log('Assistant has been successfully created');
-  } else {
-    assistantJson = JSON.parse(fs.readFileSync(assistantJsonPath));
-  }
+  // } else {
+  //   assistantJson = JSON.parse(fs.readFileSync(assistantJsonPath));
+  // }
 
   return assistantJson;
 };
