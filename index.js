@@ -14,7 +14,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const assistant = createAssistant(openai);
+const assistant = await createAssistant(openai);
 
 // Middleware
 app.use(helmet()); // Adds security headers
@@ -23,14 +23,15 @@ app.use(express.json()); // Parses JSON bodies
 app.use(express.urlencoded({ extended: false })); // Parses URL-encoded bodies
 
 // Routes
-app.get('/start', (_, res) => {
-  const thread = openai.beta.threads.creat();
+app.get('/start', async (_, res) => {
+  const thread = await openai.beta.threads.create();
+  console.log(assistant);
   res.json({ threadId: thread.id });
 });
 
 app.post('/chat', async (req, res) => {
-  const { threadId, message } = req.body();
 
+  const { threadId, message } = req.body;
   if (!threadId) {
     res.status(500).on({ error: 'Thread ID isn\'t provided' });
   }
@@ -45,7 +46,7 @@ app.post('/chat', async (req, res) => {
   });
 
   const retrieve = async () => {
-    while (myRun.status !== "completed") {
+    while (run.status !== "completed") {
       const keepRetrievingRun = await openai.beta.threads.runs.retrieve(threadId, run.id);
 
       console.log(`Run status: ${keepRetrievingRun.status}`);
@@ -53,7 +54,7 @@ app.post('/chat', async (req, res) => {
       if (keepRetrievingRun.status === "completed") {
         console.log("\n");
         break;
-      } else {
+      } else if (keepRetrievingRun.status === "requires_action") {
         for (const tool_call of keepRetrievingRun.required_action.submit_tool_outputs.tool_calls) {
           // keepRetrievingRun.required_action.submit_tool_outputs.tool_calls.forEach((tool_call) => {
           switch (tool.function.name === FUNCTION_NAMES.captureLead) {
@@ -74,11 +75,6 @@ app.post('/chat', async (req, res) => {
                   ]
                 });
 
-                const messages = await client.beta.threads.messages.list(threadId);
-                response = messages.data[0].content[0].text.value;
-
-                res.json({ response });
-
               } catch (e) {
                 throw e;
               }
@@ -93,6 +89,11 @@ app.post('/chat', async (req, res) => {
   };
 
   await retrieve();
+
+  const messages = await openai.beta.threads.messages.list(threadId);
+  const response = messages.data[0].content[0].text.value;
+
+  res.json({ response });
 });
 
 // Catch 404 and forward to error handler
