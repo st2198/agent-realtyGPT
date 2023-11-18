@@ -29,7 +29,7 @@ const TOOLS = [
               type: 'string'
             },
           },
-          required: ["location"],
+          required: ["name", "email", "phone"],
         },
       },
     },
