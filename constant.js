@@ -1,4 +1,4 @@
-const MODEL_NAME = 'gpt-4-1106-preview';
+const MODEL_NAME = 'gpt-4';
 // const MODEL_NAME = 'gpt-3.5-turbo';
 const ASSISTANT_NAME = 'Agent RealtyGPT';
 const ASSISTANT_DESCRIPTION = 'A friendly, single-question focused chatbot for real estate lead qualification.';
