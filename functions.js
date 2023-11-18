@@ -1,6 +1,6 @@
 import fs from 'fs';
 import axios from 'axios';
-import { ASSISTANT_NAME, ASSISTANT_PROMPT, MODEL_NAME, TOOLS } from './constant.js';
+import { ASSISTANT_DESCRIPTION, ASSISTANT_NAME, ASSISTANT_PROMPT, MODEL_NAME, TOOLS } from './constant.js';
 
 const createAssistant = async (client) => {
   const assistantJsonPath = 'assistant.json';
@@ -16,6 +16,7 @@ const createAssistant = async (client) => {
 
     assistantJson = await client.beta.assistants.create({
       model: MODEL_NAME,
+      description: ASSISTANT_DESCRIPTION,
       instructions: ASSISTANT_PROMPT,
       name: ASSISTANT_NAME,
       tools: TOOLS,
@@ -36,31 +37,27 @@ const createAssistant = async (client) => {
 };
 
 const createLead = async (name, email, phoneNumber) => {
-  try {
-    const data = {
-      records: {
-        fields: {
-          Name: name,
-          Email: email,
-          PhoneNumber: phoneNumber,
-        }
+  const data = {
+    records: {
+      fields: {
+        Name: name,
+        Email: email,
+        PhoneNumber: phoneNumber,
       }
-    };
+    }
+  };
 
-    const base = 'appA4IjlJIwaNUxzg';
-    const table = 'tbl4HodP9AEsNQEQj';
-    const url = `https://api.airtable.com/v0/${base}/${table}/`;
-    const headers = {
-      method: 'POST',
-      authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
-      contentType: 'application/json',
-    };
+  const base = 'appA4IjlJIwaNUxzg';
+  const table = 'tbl4HodP9AEsNQEQj';
+  const url = `https://api.airtable.com/v0/${base}/${table}/`;
+  const headers = {
+    method: 'POST',
+    authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
+    contentType: 'application/json',
+  };
 
-    const response = await axios.post(url, data, headers);
-    return response.json();
-  } catch (e) {
-    console.error(e);
-  }
+  const response = await axios.post(url, data, headers);
+  return response.json();
 };
 
 export {
