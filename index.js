@@ -30,9 +30,6 @@ app.get('/start', async (_, res) => {
 });
 
 app.post('/chat', async (req, res) => {
-  console.log('req.body');
-  console.log(req.body);
-
   const { threadId, message } = req.body;
   if (!threadId) {
     res.status(500).on({ error: 'Thread ID isn\'t provided' });
@@ -59,7 +56,7 @@ app.post('/chat', async (req, res) => {
       } else if (keepRetrievingRun.status === "requires_action") {
         for (const tool_call of keepRetrievingRun.required_action.submit_tool_outputs.tool_calls) {
           // keepRetrievingRun.required_action.submit_tool_outputs.tool_calls.forEach((tool_call) => {
-          switch (tool.function.name === FUNCTION_NAMES.captureLead) {
+          switch (tool_call.function.name === FUNCTION_NAMES.captureLead) {
             case FUNCTION_NAMES.captureLead:
               const { name, email, phoneNumber } = JSON.parse(tool_call.function.arguments);
               console.log('name, email, phoneNumber');
@@ -83,7 +80,7 @@ app.post('/chat', async (req, res) => {
 
               break;
             default:
-              throw `Function hasn't been provided: ${tool.function.name}`
+              throw `Function hasn't been provided: ${tool_call.function.name}`
           }
         }
       }

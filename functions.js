@@ -47,10 +47,12 @@ const createLead = async (name, email, phoneNumber) => {
       }
     };
 
-    const url = 'https://api.airtable.com/v0';
+    const base = 'appA4IjlJIwaNUxzg';
+    const table = 'tbl4HodP9AEsNQEQj';
+    const url = `https://api.airtable.com/v0/${base}/${table}/`;
     const headers = {
       method: 'POST',
-      authorization: process.env.AIRTABLE_ACCESS_KEY,
+      authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
       contentType: 'application/json',
     };
 
