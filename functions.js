@@ -7,12 +7,6 @@ const createAssistant = async (client) => {
   let assistantJson = {};
 
   if (!fs.existsSync(assistantJsonPath)) {
-    const knowledgeBase = await client.files.create({
-      file: fs.createReadStream("KnowledgeBase.pdf"),
-      purpose: "assistants",
-    });
-
-    console.log('Knowledge base uploaded successfully');
 
     assistantJson = await client.beta.assistants.create({
       model: MODEL_NAME,
@@ -20,7 +14,6 @@ const createAssistant = async (client) => {
       instructions: ASSISTANT_PROMPT,
       name: ASSISTANT_NAME,
       tools: TOOLS,
-      file_ids: [knowledgeBase.id],
     });
 
     fs.writeFile(assistantJsonPath, JSON.stringify(assistantJson), (err) => {
@@ -36,13 +29,60 @@ const createAssistant = async (client) => {
   return assistantJson;
 };
 
-const createLead = async (name, email, phoneNumber) => {
+
+
+
+
+
+
+
+
+
+
+
+const createLead = async (
+  name, 
+  email, 
+  phoneNumber, 
+  whenReady,
+  workWithAgent,
+  committedWithAgent,
+  rentOrOwn,
+  planningToSell,
+  firstTimeHomeBuyer,
+  freeHomeEvaluation,
+  homeTitle,
+  priceRange,
+  size,
+  bedrooms,
+  bathrooms,
+  specificFeatures,
+  paymentType,
+  preApprovedLender,
+  workWithBroker,
+  ) => {
   const data = {
     records: {
       fields: {
         Name: name,
         Email: email,
         PhoneNumber: phoneNumber,
+        WhenReadyToBy: whenReady,
+        WorkWithAgent: workWithAgent,
+        CommittedWithAgent: committedWithAgent,
+        RentOrOwn: rentOrOwn,
+        PlanningToSell: planningToSell,
+        FirstTimeHomeBuyer: firstTimeHomeBuyer,
+        FreeHomeEvaluation: freeHomeEvaluation,
+        HomeTitle: homeTitle,
+        PriceRange: priceRange,
+        Bedrooms: bedrooms,
+        Bathrooms: bathrooms,
+        Size: size,
+        SpecificFeatures: specificFeatures,
+        PaymentType: paymentType,
+        'Pre-approved lender': preApprovedLender,
+        WorkedWithMortgageBroker: workWithBroker,
       }
     }
   };

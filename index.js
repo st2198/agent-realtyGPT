@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import OpenAI from "openai";
 import { createAssistant, createLead } from './functions.js';
-import { FUNCTION_NAMES } from './constant.js';
+import { ASSISTANT_PROMPT, FUNCTION_NAMES, TOOLS } from './constant.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -41,7 +41,7 @@ app.post('/chat', async (req, res, next) => {
   })
 
   const run = await openai.beta.threads.runs.create(threadId, {
-    assistant_id: assistant.id
+    assistant_id: assistant.id,
   });
 
   const retrieve = async () => {
@@ -55,10 +55,11 @@ app.post('/chat', async (req, res, next) => {
         break;
       } else if (keepRetrievingRun.status === "requires_action") {
         for (const tool_call of keepRetrievingRun.required_action.submit_tool_outputs.tool_calls) {
-          // keepRetrievingRun.required_action.submit_tool_outputs.tool_calls.forEach((tool_call) => {
           switch (tool_call.function.name) {
             
-            case FUNCTION_NAMES.captureLead:
+            case FUNCTION_NAMES.captureBuyLead:
+              console.log('tool_call.function.name');
+              console.log(tool_call.function.name);
               console.log('tool_call.function.arguments');
               console.log(tool_call.function.arguments);
               const { name, email, phoneNumber } = JSON.parse(tool_call.function.arguments);
