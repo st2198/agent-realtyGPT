@@ -40,7 +40,7 @@ const createAssistant = async (client) => {
 
 
 
-const createLead = async (
+const captureLeadBuy = async (
   name, 
   email, 
   phoneNumber, 
@@ -102,5 +102,5 @@ const createLead = async (
 
 export {
   createAssistant,
-  createLead,
+  captureLeadBuy,
 };

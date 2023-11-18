@@ -4,8 +4,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import OpenAI from "openai";
-import { createAssistant, createLead } from './functions.js';
-import { ASSISTANT_PROMPT, FUNCTION_NAMES, TOOLS } from './constant.js';
+import { createAssistant, captureLeadBuy } from './functions.js';
+import { FUNCTION_NAMES } from './constant.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -56,18 +56,52 @@ app.post('/chat', async (req, res, next) => {
       } else if (keepRetrievingRun.status === "requires_action") {
         for (const tool_call of keepRetrievingRun.required_action.submit_tool_outputs.tool_calls) {
           switch (tool_call.function.name) {
-            
+
             case FUNCTION_NAMES.captureBuyLead:
-              console.log('tool_call.function.name');
-              console.log(tool_call.function.name);
-              console.log('tool_call.function.arguments');
-              console.log(tool_call.function.arguments);
-              const { name, email, phoneNumber } = JSON.parse(tool_call.function.arguments);
-              console.log('name, email, phoneNumber');
-              console.log(name, email, phoneNumber);
+              const {
+                name,
+                email,
+                phoneNumber,
+                whenReady,
+                workWithAgent,
+                committedWithAgent,
+                rentOrOwn,
+                planningToSell,
+                firstTimeHomeBuyer,
+                freeHomeEvaluation,
+                homeTitle,
+                priceRange,
+                size,
+                bedrooms,
+                bathrooms,
+                specificFeatures,
+                paymentType,
+                preApprovedLender,
+                workWithBroker,
+              } = JSON.parse(tool_call.function.arguments);
 
               try {
-                await createLead(name, email, phoneNumber);
+                await captureLeadBuy(
+                  name,
+                  email,
+                  phoneNumber,
+                  whenReady,
+                  workWithAgent,
+                  committedWithAgent,
+                  rentOrOwn,
+                  planningToSell,
+                  firstTimeHomeBuyer,
+                  freeHomeEvaluation,
+                  homeTitle,
+                  priceRange,
+                  size,
+                  bedrooms,
+                  bathrooms,
+                  specificFeatures,
+                  paymentType,
+                  preApprovedLender,
+                  workWithBroker
+                );
 
                 await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
                   tool_outputs: [
