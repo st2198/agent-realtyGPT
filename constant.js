@@ -21,12 +21,15 @@ const TOOLS = [
           properties: {
             name: {
               type: "string",
+              description: "The full name of person you are speaking to"
             },
             email: { 
-              type: "string", 
+              type: "string",
+              description: "The email of person you are speaking to"
             },
             phone: {
-              type: 'string'
+              type: 'string',
+              description: "The phone number of person you are speaking to"
             },
           },
           required: ["name", "email", "phone"],
