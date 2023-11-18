@@ -29,17 +29,6 @@ const createAssistant = async (client) => {
   return assistantJson;
 };
 
-
-
-
-
-
-
-
-
-
-
-
 const captureLeadBuy = async (
   name, 
   email, 

@@ -97,12 +97,12 @@ const TOOLS = [
           },
           preApprovedLender: {
             type: 'string',
-            description: 'Ask lead if there are preapproved by lender',
+            description: 'Ask lead if there are preapproved by lender if a lead uses mortagage',
             enum: ['Yes', 'No'],
           },
           workWithBroker: {
             type: 'string',
-            description: 'Ask lead if they had the opportunity to speak with a mortgage broker',
+            description: 'Ask lead if they had the opportunity to speak with a mortgage broker. if a lead uses mortagage',
             enum: ['Yes', 'No'],
           }
 
