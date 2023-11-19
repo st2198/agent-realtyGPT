@@ -30,9 +30,9 @@ const createAssistant = async (client) => {
 };
 
 const captureLeadBuy = async (
-  name, 
-  email, 
-  phoneNumber, 
+  name,
+  email,
+  phoneNumber,
   whenReady,
   workWithAgent,
   committedWithAgent,
@@ -49,31 +49,34 @@ const captureLeadBuy = async (
   paymentType,
   preApprovedLender,
   workWithBroker,
-  ) => {
+) => {
+
   const data = {
-    records: {
-      fields: {
-        "Name": name,
-        "Email": email,
-        'Phone number': phoneNumber,
-        'When ready to buy': whenReady,
-        'Work with agent': workWithAgent,
-        'Committed with agent': committedWithAgent,
-        'Rent or own': rentOrOwn,
-        'Planning to sell': planningToSell,
-        'First time buyer': firstTimeHomeBuyer,
-        'Free home evaluation': freeHomeEvaluation,
-        'Home title': homeTitle,
-        'Price range': priceRange,
-        "Bedrooms": bedrooms,
-        "Bathrooms": bathrooms,
-        "Size": size,
-        'Specific features': specificFeatures,
-        'Payment type': paymentType,
-        'Pre-approved lender': preApprovedLender,
-        'Worked with mortgage broker': workWithBroker,
+    records: [
+      {
+        fields: {
+          "Name": name,
+          "Email": email,
+          'Phone number': phoneNumber,
+          'When ready to buy': whenReady,
+          'Work with agent': workWithAgent,
+          'Committed with agent': committedWithAgent ?? 'N/A',
+          'Rent or own': rentOrOwn,
+          'Planning to sell': planningToSell ?? 'N/A',
+          'First time buyer': firstTimeHomeBuyer,
+          'Free home evaluation': freeHomeEvaluation ?? 'N/A',
+          'Home title': homeTitle ?? 'N/A',
+          'Price range': priceRange,
+          "Bedrooms": bedrooms,
+          "Bathrooms": bathrooms,
+          "Size": size,
+          'Specific features': specificFeatures,
+          'Payment type': paymentType,
+          'Pre-approved lender': preApprovedLender ?? 'N/A',
+          'Worked with mortgage broker': workWithBroker ?? 'N/A',
+        }
       }
-    }
+    ]
   };
 
   const base = 'appA4IjlJIwaNUxzg';
@@ -85,8 +88,7 @@ const captureLeadBuy = async (
     contentType: 'application/json',
   };
 
-  const response = await axios.post(url, data, headers);
-  return response.json();
+  await axios.post(url, data, {headers});
 };
 
 export {

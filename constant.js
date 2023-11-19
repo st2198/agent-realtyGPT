@@ -56,7 +56,7 @@ const TOOLS = [
           },
           homeTitle: {
             type: 'string',
-            description: 'Ask who\'s on your home title',
+            description: 'Ask who\'s on your home title. Ask if a lead owns a property and want a free home evaluation',
           },
           priceRange: {
             type: 'string',
@@ -101,7 +101,7 @@ const TOOLS = [
             type: "string",
             description: "The email of lead you are speaking to"
           },
-          phone: {
+          phoneNumber: {
             type: 'string',
             description: "The phone number of lead you are speaking to"
           },
@@ -110,7 +110,7 @@ const TOOLS = [
         required: [
           "name", 
           "email", 
-          "phone", 
+          "phoneNumber", 
           "whenReady", 
           "workWithAgent", 
           "committedWithAgent", 
