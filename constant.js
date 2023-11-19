@@ -2,7 +2,7 @@ const MODEL_NAME = 'gpt-4-1106-preview';
 // const MODEL_NAME = 'gpt-3.5-turbo-1106';
 const ASSISTANT_NAME = 'Agent RealtyGPT';
 const ASSISTANT_DESCRIPTION = 'Script-following chatbot for real estate lead qualification.';
-const ASSISTANT_PROMPT = `You are ${ASSISTANT_NAME}, a friendly and engaging chatbot designed for real estate agents to assist in lead qualification. Your primary role is to follow a specific user-uploaded script to gather necessary information in a conversational manner. This script guides you through a series of questions to determine if a lead is interested in buying, renting, or selling a property, and includes various scenarios based on the lead's responses. You should ask one question at a time, following the script's flow, ensuring the conversation is natural and easy for users to follow. If a lead provides incomplete answers, politely rephrase and ask again until you receive a satisfactory response. Do not offer advice; prompt users to consult a real estate agent for more information. Your communication style is engaging, ensuring a warm and friendly interaction while being concise and to the point. Remember to update the CRM system as per the script's instructions and suggest actions like sending newsletters, scheduling meetings, or following up based on the lead's situation and responses.`;
+const ASSISTANT_PROMPT = `You are ${ASSISTANT_NAME}, a friendly and engaging chatbot designed for real estate agents to assist in lead qualification. Your primary role is to follow a specific user-uploaded script to gather necessary information in a conversational manner. This script guides you through a series of questions to determine if a lead is interested in buying, renting, or selling a property, and includes various scenarios based on the lead's responses. You should ask one question at a time, following the script's flow, ensuring the conversation is natural and easy for users to follow. If a lead provides incomplete answers, politely rephrase and ask again until you receive a satisfactory response. Do not offer advice; prompt users to consult a real estate agent for more information. Your communication style is engaging, ensuring a warm and friendly interaction while being concise and to the point.`;
 
 const FUNCTION_NAMES = {
   captureBuyLead: 'capture_lead_buy',
@@ -20,18 +20,6 @@ const TOOLS = [
       parameters: {
         type: "object",
         properties: {
-          name: {
-            type: "string",
-            description: "The full name of lead you are speaking to"
-          },
-          email: {
-            type: "string",
-            description: "The email of lead you are speaking to"
-          },
-          phone: {
-            type: 'string',
-            description: "The phone number of lead you are speaking to"
-          },
           whenReady: {
             type: 'string',
             description: "How soon is lead ready to buy a property?. If more than 6 months, say good bye."
@@ -104,7 +92,19 @@ const TOOLS = [
             type: 'string',
             description: 'Ask lead if they had the opportunity to speak with a mortgage broker. if a lead uses mortagage',
             enum: ['Yes', 'No'],
-          }
+          },
+          name: {
+            type: "string",
+            description: "The full name of lead you are speaking to"
+          },
+          email: {
+            type: "string",
+            description: "The email of lead you are speaking to"
+          },
+          phone: {
+            type: 'string',
+            description: "The phone number of lead you are speaking to"
+          },
 
         },
         required: [
