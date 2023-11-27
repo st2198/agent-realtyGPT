@@ -119,6 +119,8 @@ app.post('/chat', async (req, res, next) => {
               break;
               case FUNCTION_NAMES.captureSellLead:
                 const sellArgs = JSON.parse(tool_call.function.arguments);
+                console.log(sellArgs);
+                console.log('sellArgs');
 
                 try {
                   await captureSellLead(sellArgs);

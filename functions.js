@@ -91,8 +91,8 @@ const captureBuyLead = async (
   await axios.post(url, data, { headers });
 };
 
-const captureSellLead = async (
-  {
+const captureSellLead = async params => {
+  const {
     name,
     email,
     phoneNumber,
@@ -107,8 +107,7 @@ const captureSellLead = async (
     obtainedMarketAnalysis,
     firstTimeSeller,
     challengesSuccess,
-  }
-) => {
+  } = params;
 
   const data = {
     records: [
@@ -127,11 +126,14 @@ const captureSellLead = async (
           'Price expectations': price,
           'Obtained market analysis': obtainedMarketAnalysis,
           'First time seller': firstTimeSeller,
-          'Challenges and success of selling': challengesSuccess,
+          'Challenges and success of selling': challengesSuccess ?? 'N/A',
         }
       }
     ]
   };
+
+  console.log(data.records);
+  console.log('data');
 
   const base = 'appqTfPRTRvbIJybZ';
   const table = 'tblGmyNSLsU1xHMwj';
