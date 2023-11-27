@@ -117,14 +117,14 @@ const captureSellLead = async (
           "Name": name,
           "Email": email,
           'Phone number': phoneNumber,
-          'When ready to buy': whenReady,
+          'When ready to sell': whenReady,
           'Work with agent': workWithAgent,
           'Committed with agent': committedWithAgent ?? 'N/A',
           'Reason for selling': reason,
           'Bedrooms': bedrooms,
           'Bathrooms': bathrooms,
           'Address': address,
-          'Price expectation': price,
+          'Price expectations': price,
           'Obtained market analysis': obtainedMarketAnalysis,
           'First time seller': firstTimeSeller,
           'Challenges and success of selling': challengesSuccess,
@@ -172,11 +172,11 @@ const captureRentLead = async (
           "Name": name,
           "Email": email,
           'Phone number': phoneNumber,
-          'When ready to buy': whenReady,
+          'When ready to rent': whenReady,
           'Work with agent': workWithAgent,
           'Committed with agent': committedWithAgent ?? 'N/A',
           'Price range': budget,
-          'Credit score': creditScore,
+          'Credit score': creditScore ?? 'N/A',
           'Send 410 form': send410Form,
           'Property Type': propertyType,
           'Bedrooms': bedrooms,
@@ -189,8 +189,8 @@ const captureRentLead = async (
     ]
   };
 
-  const base = 'appqTfPRTRvbIJybZ';
-  const table = 'tblGmyNSLsU1xHMwj';
+  const base = 'appGioM24Q02oq8fd';
+  const table = 'tblNFzfFwhsSlaqz8';
   const url = `https://api.airtable.com/v0/${base}/${table}/`;
   const headers = {
     method: 'POST',
