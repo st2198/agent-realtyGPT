@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import OpenAI from "openai";
-import { createAssistant, captureLeadBuy } from './functions.js';
+import { createAssistant, captureBuyLead, captureSellLead, captureRentLead } from './functions.js';
 import { FUNCTION_NAMES } from './constant.js';
 
 const app = express();
@@ -81,7 +81,7 @@ app.post('/chat', async (req, res, next) => {
               } = JSON.parse(tool_call.function.arguments);
 
               try {
-                await captureLeadBuy(
+                await captureBuyLead(
                   name,
                   email,
                   phoneNumber,
@@ -117,6 +117,40 @@ app.post('/chat', async (req, res, next) => {
               }
 
               break;
+              case FUNCTION_NAMES.captureSellLead:
+                const sellArgs = JSON.parse(tool_call.function.arguments);
+
+                try {
+                  await captureSellLead(sellArgs);
+
+                  await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+                    tool_outputs: [
+                      {
+                        output: `Contact information ${name}, ${email} and ${phoneNumber} has be added successfully`,
+                        tool_call_id: tool_call.id,
+                      }
+                    ]
+                  });
+                } catch (e) {
+                  next(e);
+                }
+                case FUNCTION_NAMES.captureRentLead:
+                const rentArgs = JSON.parse(tool_call.function.arguments);
+
+                try {
+                  await captureRentLead(rentArgs);
+
+                  await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+                    tool_outputs: [
+                      {
+                        output: `Contact information ${name}, ${email} and ${phoneNumber} has be added successfully`,
+                        tool_call_id: tool_call.id,
+                      }
+                    ]
+                  });
+                } catch (e) {
+                  next(e);
+                }
             default:
               next(`Function hasn't been provided: ${tool_call.function.name}`);
           }

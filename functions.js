@@ -29,7 +29,7 @@ const createAssistant = async (client) => {
   return assistantJson;
 };
 
-const captureLeadBuy = async (
+const captureBuyLead = async (
   name,
   email,
   phoneNumber,
@@ -88,10 +88,122 @@ const captureLeadBuy = async (
     contentType: 'application/json',
   };
 
-  await axios.post(url, data, {headers});
+  await axios.post(url, data, { headers });
+};
+
+const captureSellLead = async (
+  {
+    name,
+    email,
+    phoneNumber,
+    whenReady,
+    workWithAgent,
+    committedWithAgent,
+    reason,
+    bedrooms,
+    bathrooms,
+    address,
+    price,
+    obtainedMarketAnalysis,
+    firstTimeSeller,
+    challengesSuccess,
+  }
+) => {
+
+  const data = {
+    records: [
+      {
+        fields: {
+          "Name": name,
+          "Email": email,
+          'Phone number': phoneNumber,
+          'When ready to buy': whenReady,
+          'Work with agent': workWithAgent,
+          'Committed with agent': committedWithAgent ?? 'N/A',
+          'Reason for selling': reason,
+          'Bedrooms': bedrooms,
+          'Bathrooms': bathrooms,
+          'Address': address,
+          'Price expectation': price,
+          'Obtained market analysis': obtainedMarketAnalysis,
+          'First time seller': firstTimeSeller,
+          'Challenges and success of selling': challengesSuccess,
+        }
+      }
+    ]
+  };
+
+  const base = 'appqTfPRTRvbIJybZ';
+  const table = 'tblGmyNSLsU1xHMwj';
+  const url = `https://api.airtable.com/v0/${base}/${table}/`;
+  const headers = {
+    method: 'POST',
+    authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
+    contentType: 'application/json',
+  };
+
+  await axios.post(url, data, { headers });
+};
+
+const captureRentLead = async (
+  {
+    name,
+    email,
+    phoneNumber,
+    whenReady,
+    workWithAgent,
+    committedWithAgent,
+    budget,
+    creditScore,
+    send410Form,
+    propertyType,
+    bedrooms,
+    bathrooms,
+    locationPreferences,
+    amenities,
+    leaseDuration,
+  }
+) => {
+
+  const data = {
+    records: [
+      {
+        fields: {
+          "Name": name,
+          "Email": email,
+          'Phone number': phoneNumber,
+          'When ready to buy': whenReady,
+          'Work with agent': workWithAgent,
+          'Committed with agent': committedWithAgent ?? 'N/A',
+          'Price range': budget,
+          'Credit score': creditScore,
+          'Send 410 form': send410Form,
+          'Property Type': propertyType,
+          'Bedrooms': bedrooms,
+          'Bathrooms': bathrooms,
+          'Location preferences': locationPreferences,
+          'Amenities': amenities,
+          'Lease duration': leaseDuration,
+        }
+      }
+    ]
+  };
+
+  const base = 'appqTfPRTRvbIJybZ';
+  const table = 'tblGmyNSLsU1xHMwj';
+  const url = `https://api.airtable.com/v0/${base}/${table}/`;
+  const headers = {
+    method: 'POST',
+    authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
+    contentType: 'application/json',
+  };
+
+  await axios.post(url, data, { headers });
 };
 
 export {
   createAssistant,
-  captureLeadBuy,
+  captureBuyLead,
+  captureSellLead,
+  captureRentLead,
 };
