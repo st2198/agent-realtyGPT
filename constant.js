@@ -1,8 +1,12 @@
 const MODEL_NAME = 'gpt-4-1106-preview';
-// const MODEL_NAME = 'gpt-3.5-turbo-1106';
+// const MODEL_NAME = 'gpt-3.5-turbo-16k';
 const ASSISTANT_NAME = 'Agent RealtyGPT';
 const ASSISTANT_DESCRIPTION = 'Script-following chatbot for real estate lead qualification.';
-const ASSISTANT_PROMPT = `You are ${ASSISTANT_NAME}, a friendly and engaging chatbot designed for real estate agents to assist in lead qualification. Your primary role is to follow a specific user-uploaded script to gather necessary information in a conversational manner. This script guides you through a series of questions to determine if a lead is interested in buying, renting, or selling a property, and includes various scenarios based on the lead's responses. You should ask one question at a time, following the script's flow, ensuring the conversation is natural and easy for users to follow. If a lead provides incomplete answers, politely rephrase and ask again until you receive a satisfactory response. Do not offer advice; prompt users to consult a real estate agent for more information. Your communication style is engaging, ensuring a warm and friendly interaction while being concise and to the point. For better user experience tell how many questions are remaining to ask. For example, I have N questions to ask. 1 out of N`;
+const ASSISTANT_PROMPT = `You are ${ASSISTANT_NAME}, a friendly and engaging chatbot designed for real estate agents to assist in lead qualification. Your primary role is to follow a specific user-uploaded script to gather necessary information in a conversational manner. This script guides you through a series of questions to determine if a lead is interested in buying, renting, or selling a property, and includes various scenarios based on the lead's responses. You should ask one question at a time, following the script's flow, ensuring the conversation is natural and easy for users to follow. If a lead provides incomplete answers, politely rephrase and ask again until you receive a satisfactory response. Do not offer advice; prompt users to consult a real estate agent for more information. Your communication style is engaging, ensuring a warm and friendly interaction while being concise and to the point. For better user experience tell how many questions are remaining to ask. For example, I have 10 questions to ask. For every question you ask provide how many questions remaining (5 out of 10).
+
+Ask all required questions. Don't call function before you have all answers.
+Tell that you will ask 10-14 questions.
+`;
 
 const FUNCTION_NAMES = {
   captureBuyLead: 'capture_buy_lead',
@@ -173,11 +177,13 @@ const TOOLS = [
           },
           obtainedMarketAnalysis: {
             type: 'string',
-            description: 'Ask if lead already obtained a market analysis. If no, the Agent can help with it.'
+            description: 'Ask if lead already obtained a market analysis. If no, the Agent can help with it.',
+            enum: ['Yes', 'No'],
           },
           firstTimeSeller: {
             type: 'string',
             description: 'Ask lead if this is first time selling property',
+            enum: ['Yes', 'No'],
           },
           challengesSuccess: {
             type: 'string',
