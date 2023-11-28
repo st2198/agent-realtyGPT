@@ -155,7 +155,7 @@ app.post('/chat', async (req, res, next) => {
               next(`Function hasn't been provided: ${tool_call.function.name}`);
           }
         }
-      } else {
+      } else if(keepRetrievingRun.status === "expired") {
         console.log("finishing retrival. Probably expired run");
         break;
       }
