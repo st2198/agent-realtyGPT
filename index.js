@@ -26,13 +26,13 @@ app.use(express.urlencoded({ extended: false })); // Parses URL-encoded bodies
 app.get('/start', async (_, res) => {
   const thread = await openai.beta.threads.create();
   console.log(assistant);
-  res.json({ threadId: thread.id });
+  return res.json({ threadId: thread.id });
 });
 
 app.post('/chat', async (req, res, next) => {
   const { threadId, message } = req.body;
   if (!threadId) {
-    res.status(500).on({ error: 'Thread ID isn\'t provided' });
+    res.status(500).json({ error: 'Thread ID isn\'t provided' });
   }
 
   await openai.beta.threads.messages.create(threadId, {
@@ -143,7 +143,7 @@ app.post('/chat', async (req, res, next) => {
                   await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
                     tool_outputs: [
                       {
-                        output: `Contact information ${name}, ${email} and ${phoneNumber} has be added successfully`,
+                        output: `Contact information has be added successfully`,
                         tool_call_id: tool_call.id,
                       }
                     ]
@@ -167,7 +167,7 @@ app.post('/chat', async (req, res, next) => {
   const messages = await openai.beta.threads.messages.list(threadId);
   const response = messages.data[0].content[0].text.value;
 
-  res.json({ response });
+  return res.json({ response });
 });
 
 // Catch 404 and forward to error handler

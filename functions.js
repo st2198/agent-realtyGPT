@@ -147,8 +147,8 @@ const captureSellLead = async params => {
   await axios.post(url, data, { headers });
 };
 
-const captureRentLead = async (
-  {
+const captureRentLead = async params => {
+  const {
     name,
     email,
     phoneNumber,
@@ -164,9 +164,7 @@ const captureRentLead = async (
     locationPreferences,
     amenities,
     leaseDuration,
-  }
-) => {
-
+  } = params;
   const data = {
     records: [
       {
@@ -190,6 +188,9 @@ const captureRentLead = async (
       }
     ]
   };
+
+  console.log(data)
+  console.log('data')
 
   const base = 'appGioM24Q02oq8fd';
   const table = 'tblNFzfFwhsSlaqz8';
