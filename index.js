@@ -26,13 +26,13 @@ app.use(express.urlencoded({ extended: false })); // Parses URL-encoded bodies
 app.get('/start', async (_, res) => {
   const thread = await openai.beta.threads.create();
   console.log(assistant);
-  return res.json({ threadId: thread.id });
+  res.json({ threadId: thread.id });
 });
 
 app.post('/chat', async (req, res, next) => {
   const { threadId, message } = req.body;
   if (!threadId) {
-    res.status(500).json({ error: 'Thread ID isn\'t provided' });
+    return res.status(500).json({ error: 'Thread ID isn\'t provided' });
   }
 
   await openai.beta.threads.messages.create(threadId, {
@@ -117,45 +117,48 @@ app.post('/chat', async (req, res, next) => {
               }
 
               break;
-              case FUNCTION_NAMES.captureSellLead:
-                const sellArgs = JSON.parse(tool_call.function.arguments);
+            case FUNCTION_NAMES.captureSellLead:
+              const sellArgs = JSON.parse(tool_call.function.arguments);
 
-                try {
-                  await captureSellLead(sellArgs);
+              try {
+                await captureSellLead(sellArgs);
 
-                  await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
-                    tool_outputs: [
-                      {
-                        output: `Contact information has be added successfully`,
-                        tool_call_id: tool_call.id,
-                      }
-                    ]
-                  });
-                } catch (e) {
-                  next(e);
-                }
-                case FUNCTION_NAMES.captureRentLead:
-                const rentArgs = JSON.parse(tool_call.function.arguments);
+                await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+                  tool_outputs: [
+                    {
+                      output: `Contact information has be added successfully`,
+                      tool_call_id: tool_call.id,
+                    }
+                  ]
+                });
+              } catch (e) {
+                next(e);
+              }
+              break;
+            case FUNCTION_NAMES.captureRentLead:
+              const rentArgs = JSON.parse(tool_call.function.arguments);
 
-                try {
-                  await captureRentLead(rentArgs);
+              try {
+                await captureRentLead(rentArgs);
 
-                  await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
-                    tool_outputs: [
-                      {
-                        output: `Contact information has be added successfully`,
-                        tool_call_id: tool_call.id,
-                      }
-                    ]
-                  });
-                } catch (e) {
-                  next(e);
-                }
+                await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+                  tool_outputs: [
+                    {
+                      output: `Contact information has be added successfully`,
+                      tool_call_id: tool_call.id,
+                    }
+                  ]
+                });
+              } catch (e) {
+                next(e);
+              }
+              break;
             default:
               next(`Function hasn't been provided: ${tool_call.function.name}`);
+              break;
           }
         }
-      } else if(keepRetrievingRun.status === "expired") {
+      } else if (keepRetrievingRun.status === "expired") {
         console.log("finishing retrival. Probably expired run");
         break;
       }
@@ -167,7 +170,7 @@ app.post('/chat', async (req, res, next) => {
   const messages = await openai.beta.threads.messages.list(threadId);
   const response = messages.data[0].content[0].text.value;
 
-  return res.json({ response });
+  res.json({ response });
 });
 
 // Catch 404 and forward to error handler
@@ -177,8 +180,10 @@ app.use((req, res, next) => {
 
 // Error handler
 app.use((err, req, res, next) => {
+  console.error('err.stack');
+  console.error(err);
   console.error(err.stack);
-  res.status(500).on({ error: 'Something is broken!' });
+  res.status(500).json({ error: 'Something is broken!' });
 });
 
 // Start the server
