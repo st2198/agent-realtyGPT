@@ -119,8 +119,6 @@ app.post('/chat', async (req, res, next) => {
               break;
               case FUNCTION_NAMES.captureSellLead:
                 const sellArgs = JSON.parse(tool_call.function.arguments);
-                console.log(sellArgs);
-                console.log('sellArgs');
 
                 try {
                   await captureSellLead(sellArgs);
@@ -128,7 +126,7 @@ app.post('/chat', async (req, res, next) => {
                   await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
                     tool_outputs: [
                       {
-                        output: `Contact information ${name}, ${email} and ${phoneNumber} has be added successfully`,
+                        output: `Contact information has be added successfully`,
                         tool_call_id: tool_call.id,
                       }
                     ]
@@ -157,6 +155,9 @@ app.post('/chat', async (req, res, next) => {
               next(`Function hasn't been provided: ${tool_call.function.name}`);
           }
         }
+      } else {
+        console.log("finishing retrival. Probably expired run");
+        break;
       }
     }
   };
