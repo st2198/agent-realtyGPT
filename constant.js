@@ -190,7 +190,7 @@ const TOOLS = [
           },
           committedWithAgent: {
             type: 'string',
-            description: "if lead work with agent, ask if sign the BRA/Buyer representation agreement, Form 300, and & Working with Realtor, Form 810 with the Agent. If yes, end the chat",
+            description: "if lead work with agent, ask Are you 100% committed to that Agent? In other words, did you sign the Listing Agreement, Form 200 & Working with Realtor, Form 810 with the Agent?. If yes, end the chat",
             enum: ['Yes', 'No'],
           },
           reason: {
@@ -282,7 +282,7 @@ const TOOLS = [
           },
           committedWithAgent: {
             type: 'string',
-            description: "if lead work with agent, ask if sign the BRA/Buyer representation agreement, Form 300, and & Working with Realtor, Form 810 with the Agent. If yes, end the chat",
+            description: "if lead work with agent, ask lead: Are you 100% committed to that Agent? In other words, did you sign the Tenant Representation Agreement, Form 346 & Working with Realtor, Form 810 with the Agent?. If yes, end the chat",
             enum: ['Yes', 'No'],
           },
           budget: {
