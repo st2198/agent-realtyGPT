@@ -374,6 +374,10 @@ const TOOLS = [
             type: 'string',
             description: 'When would it be best time to contact you?',
           },
+          whenReady: {
+            type: 'string',
+            description: "How soon is lead ready to buy a property? Don't ask the question. Assume it"
+          },
         },
         required: [
           "actionType",
@@ -381,6 +385,7 @@ const TOOLS = [
           "email",
           "phoneNumber",
           "bestTimeToContact",
+          "whenReady",
         ],
       },
     },

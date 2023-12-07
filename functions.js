@@ -207,9 +207,47 @@ const captureRentLead = async params => {
   await axios.post(url, data, { headers });
 };
 
+const captureNurtureLead = async params => {
+  const {
+    name,
+    email,
+    phoneNumber,
+    whenReady,
+    actionType,
+  } = params;
+  const data = {
+    records: [
+      {
+        fields: {
+          "Name": name,
+          "Email": email,
+          'Phone number': phoneNumber,
+          'When ready': whenReady,
+          'Action type': actionType,
+        }
+      }
+    ]
+  };
+
+  console.log(data)
+  console.log('data')
+
+  const base = 'appZb2zhrxKe6Z7dL';
+  const table = 'tbl6yd2UTYc43JpxG';
+  const url = `https://api.airtable.com/v0/${base}/${table}/`;
+  const headers = {
+    method: 'POST',
+    authorization: `Bearer ${process.env.AIRTABLE_ACCESS_KEY}`,
+    contentType: 'application/json',
+  };
+
+  await axios.post(url, data, { headers });
+};
+
 export {
   createAssistant,
   captureBuyLead,
   captureSellLead,
   captureRentLead,
+  captureNurtureLead,
 };
