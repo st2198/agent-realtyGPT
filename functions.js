@@ -45,10 +45,13 @@ const captureBuyLead = async (
   size,
   bedrooms,
   bathrooms,
+  locationPreferences,
+  propertyPreferences,
   specificFeatures,
   paymentType,
   preApprovedLender,
   workWithBroker,
+  bestTimeToContact
 ) => {
 
   const data = {
@@ -74,6 +77,9 @@ const captureBuyLead = async (
           'Payment type': paymentType,
           'Pre-approved lender': preApprovedLender ?? 'N/A',
           'Worked with mortgage broker': workWithBroker ?? 'N/A',
+          'Best Time To Contact': bestTimeToContact ?? 'N/A',
+          'Location Preferences': locationPreferences,
+          'Property Preferences': propertyPreferences,
         }
       }
     ]
@@ -131,9 +137,6 @@ const captureSellLead = async params => {
       }
     ]
   };
-
-  console.log(data.records);
-  console.log('data');
 
   const base = 'appqTfPRTRvbIJybZ';
   const table = 'tblGmyNSLsU1xHMwj';

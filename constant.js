@@ -17,9 +17,7 @@ For example, Depends on your preferences I have between 10 and 15 questions to a
 
 Before Thank You message, capture the lead info. 
 
-Today is Dec 2023. Use it for date calculations if necessary.
-
-If lead wants to buy/sell/rent in more than 6 months follow ${FUNCTION_NAMES.captureLeadNurture} function. ask all necessary questions don't assume answers here.
+If lead wants to buy/sell/rent in more than 6 months trigger ${FUNCTION_NAMES.captureLeadNurture} function. ask all necessary questions don't assume answers here.
 
 If someone give answers in date use code_interpreter to get todays date and use this date for calculation. 
 For instance, 
@@ -29,9 +27,6 @@ A: on jan 2024
 
 const TOOLS = [
   {
-    type: 'code_interpreter',
-  },
-  {
     type: "function",
     function: {
       name: FUNCTION_NAMES.captureBuyLead,
@@ -39,6 +34,22 @@ const TOOLS = [
       parameters: {
         type: "object",
         properties: {
+          name: {
+            type: "string",
+            description: "The full name of lead you are speaking to"
+          },
+          email: {
+            type: "string",
+            description: "The email of lead you are speaking to"
+          },
+          phoneNumber: {
+            type: 'string',
+            description: "The phone number of lead you are speaking to"
+          },
+          bestTimeToContact: {
+            type: 'string',
+            description: 'When would it be best time to contact you?',
+          },
           whenReady: {
             type: 'string',
             description: "How soon is lead ready to buy a property?"
@@ -70,7 +81,7 @@ const TOOLS = [
           },
           freeHomeEvaluation: {
             type: 'string',
-            description: 'If a lead plans to sell a property, ask if a lead wants a free home evaluation',
+            description: 'If a lead plans to sell a property, ask: Would you like a FREE home evaluation? This way, a Real Estate Agent can determine what your home would sell for in today\'s market. The Agent can also provide you with tips on what to do and what not to do when selling your property, how to make your home show its best, and therefore, net you the most money. How does that sound?',
             enum: ['Yes', 'No'],
           },
           homeTitle: {
@@ -92,6 +103,14 @@ const TOOLS = [
           bathrooms: {
             type: 'number',
             description: 'Ask lead how many bathrooms would be ideal for them'
+          },
+          locationPreferences: {
+            type: 'string',
+            description: 'Ask lead about location preferences. Are there specific town / neighborhoods or areas you are interested in? Are there any amenities or services that you prioritize in the surrounding area?',
+          },
+          propertyPreferences: {
+            type: 'string',
+            description: 'Ask lead about property preferences. What type of property are you looking for (e.g., single-family home, condo, townhouse)?',
           },
           specificFeatures: {
             type: 'string',
@@ -130,15 +149,18 @@ const TOOLS = [
           "name",
           "email",
           "phoneNumber",
+          "bestTimeToContact",
           "whenReady",
           "workWithAgent",
           "rentOrOwn",
+          "freeHomeEvaluation",
           "firstTimeHomeBuyer",
-          "homeTitle",
           "priceRange",
           "size",
           "bedrooms",
           "bathrooms",
+          'locationPreferences',
+          'propertyPreferences',
           "specificFeatures",
           "paymentType",
           "preApprovedLender",
@@ -155,6 +177,22 @@ const TOOLS = [
       parameters: {
         type: "object",
         properties: {
+          name: {
+            type: "string",
+            description: "The full name of lead you are speaking to"
+          },
+          email: {
+            type: "string",
+            description: "The email of lead you are speaking to"
+          },
+          phoneNumber: {
+            type: 'string',
+            description: "The phone number of lead you are speaking to"
+          },
+          bestTimeToContact: {
+            type: 'string',
+            description: 'When would it be best time to contact you?',
+          },
           whenReady: {
             type: 'string',
             description: "How soon is lead ready to sell a property?"
@@ -203,24 +241,12 @@ const TOOLS = [
             type: 'string',
             description: 'If lead has experience selling a property, ask what did they find challenging or successful in previous transaction'
           },
-          name: {
-            type: "string",
-            description: "The full name of lead you are speaking to"
-          },
-          email: {
-            type: "string",
-            description: "The email of lead you are speaking to"
-          },
-          phoneNumber: {
-            type: 'string',
-            description: "The phone number of lead you are speaking to"
-          },
-
         },
         required: [
           "name",
           "email",
           "phoneNumber",
+          "bestTimeToContact",
           "whenReady",
           "workWithAgent",
           "reason",
@@ -243,6 +269,22 @@ const TOOLS = [
       parameters: {
         type: "object",
         properties: {
+          name: {
+            type: "string",
+            description: "The full name of lead you are speaking to"
+          },
+          email: {
+            type: "string",
+            description: "The email of lead you are speaking to"
+          },
+          phoneNumber: {
+            type: 'string',
+            description: "The phone number of lead you are speaking to"
+          },
+          bestTimeToContact: {
+            type: 'string',
+            description: 'When would it be best time to contact you?',
+          },
           whenReady: {
             type: 'string',
             description: "How soon is lead ready to rent a property?"
@@ -295,28 +337,13 @@ const TOOLS = [
             type: 'string',
             description: 'What is your preferred lease duration (e.g., 1 year or a longer-term lease)?',
           },
-          name: {
-            type: "string",
-            description: "The full name of lead you are speaking to"
-          },
-          email: {
-            type: "string",
-            description: "The email of lead you are speaking to"
-          },
-          phoneNumber: {
-            type: 'string',
-            description: "The phone number of lead you are speaking to"
-          },
-          bestTimeToContact: {
-            type: 'string',
-            description: '',
-          },
 
         },
         required: [
           "name",
           "email",
           "phoneNumber",
+          "bestTimeToContact",
           "whenReady",
           "workWithAgent",
           "budget",
@@ -357,13 +384,17 @@ const TOOLS = [
             type: 'string',
             description: "The phone number of lead you are speaking to"
           },
-
+          bestTimeToContact: {
+            type: 'string',
+            description: 'When would it be best time to contact you?',
+          },
         },
         required: [
           "actionType",
           "name",
           "email",
           "phoneNumber",
+          "bestTimeToContact",
         ],
       },
     },

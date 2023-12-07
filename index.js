@@ -74,10 +74,13 @@ app.post('/chat', async (req, res, next) => {
                 size,
                 bedrooms,
                 bathrooms,
+                locationPreferences,
+                propertyPreferences,
                 specificFeatures,
                 paymentType,
                 preApprovedLender,
                 workWithBroker,
+                bestTimeToContact,
               } = JSON.parse(tool_call.function.arguments);
 
               try {
@@ -97,10 +100,13 @@ app.post('/chat', async (req, res, next) => {
                   size,
                   bedrooms,
                   bathrooms,
+                  locationPreferences,
+                  propertyPreferences,
                   specificFeatures,
                   paymentType,
                   preApprovedLender,
-                  workWithBroker
+                  workWithBroker,
+                  bestTimeToContact
                 );
 
                 await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
