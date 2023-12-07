@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import OpenAI from "openai";
-import { createAssistant, captureBuyLead, captureSellLead, captureRentLead } from './functions.js';
+import { createAssistant, captureBuyLead, captureSellLead, captureRentLead, captureNurtureLead } from './functions.js';
 import { FUNCTION_NAMES } from './constant.js';
 
 const app = express();
@@ -159,6 +159,24 @@ app.post('/chat', async (req, res, next) => {
                 next(e);
               }
               break;
+              case FUNCTION_NAMES.captureLeadNurture:
+                const nurtureArgs = JSON.parse(tool_call.function.arguments);
+  
+                try {
+                  await captureNurtureLead(nurtureArgs);
+  
+                  await openai.beta.threads.runs.submitToolOutputs(threadId, run.id, {
+                    tool_outputs: [
+                      {
+                        output: `Contact information has be added successfully`,
+                        tool_call_id: tool_call.id,
+                      }
+                    ]
+                  });
+                } catch (e) {
+                  next(e);
+                }
+                break;
             default:
               next(`Function hasn't been provided: ${tool_call.function.name}`);
               break;
