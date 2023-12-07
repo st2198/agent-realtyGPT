@@ -46,7 +46,7 @@ const captureBuyLead = async (
   bedrooms,
   bathrooms,
   locationPreferences,
-  propertyPreferences,
+  propertyType,
   specificFeatures,
   paymentType,
   preApprovedLender,
@@ -79,7 +79,7 @@ const captureBuyLead = async (
           'Worked with mortgage broker': workWithBroker ?? 'N/A',
           'Best Time To Contact': bestTimeToContact ?? 'N/A',
           'Location Preferences': locationPreferences,
-          'Property Preferences': propertyPreferences,
+          'Property Type': propertyType,
         }
       }
     ]

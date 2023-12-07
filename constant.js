@@ -106,7 +106,7 @@ const TOOLS = [
             type: 'string',
             description: 'Ask lead about location preferences. Are there specific town / neighborhoods or areas you are interested in? Are there any amenities or services that you prioritize in the surrounding area?',
           },
-          propertyPreferences: {
+          propertyType: {
             type: 'string',
             description: 'Ask lead about property preferences. What type of property are you looking for (e.g., single-family home, condo, townhouse)?',
           },
@@ -129,18 +129,6 @@ const TOOLS = [
             description: 'If lead consider go for mortgage ask: lead if they had the opportunity to speak with a mortgage broker.',
             enum: ['Yes', 'No'],
           },
-          name: {
-            type: "string",
-            description: "The full name of lead you are speaking to"
-          },
-          email: {
-            type: "string",
-            description: "The email of lead you are speaking to"
-          },
-          phoneNumber: {
-            type: 'string',
-            description: "The phone number of lead you are speaking to"
-          },
 
         },
         required: [
@@ -158,7 +146,7 @@ const TOOLS = [
           "bedrooms",
           "bathrooms",
           'locationPreferences',
-          'propertyPreferences',
+          'propertyType',
           "specificFeatures",
           "paymentType",
           "preApprovedLender",
