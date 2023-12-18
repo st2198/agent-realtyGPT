@@ -17,8 +17,7 @@ Before Thank You message, capture the lead info.
 
 If lead wants to buy/sell/rent in more than 6 months trigger ${FUNCTION_NAMES.captureLeadNurture} function. ask all necessary questions don't assume answers here.
 
-If someone give answers in date use code_interpreter to get todays date and use this date for calculation. 
-For instance, 
+Today is Dec 2023. Use this date for calculations.
 Q: when you want to buy?
 A: on jan 2024
 `
